@@ -1,79 +1,89 @@
 #! ../yasl_linux
 
-{print "\n" print} aff
+{
+	print
+	"\n"
+	print
+} printn
+
+{
+	#
+	#printn
+} printn_stack
+
+{
+	#
+	#print
+	"\n"
+	print
+} print_stack
+
+{
+	=
+	!
+} pop_to
 
 {
 	!
-} pop
+} rm
 
 {
 	=
 } dup
 
 {
-	=
-	!
-} dup_pop
+	"need at least 2 param, first param need to be a positive int\n" print 0 exit
+} error
 
 {
-	0:eval:1
-	2^
-	0:eval:1
-	0:dup_pop:1
-	1:eval:1
-} eval_expr
+	rm
+	rm
 
-{
-	1:9
-	9:+:9
-} increment
+	(# 2 <) ? error
 
-{
-	9:#:9
-	9:#(9:aff:9)
-} p_stack_9
+	4:(
+		0:dup
+		][
+		(1 <) ? error
+	):4
+} handle_arg
 
-{
-	0:#:0
-	0:#(0:aff:0)
-} p_stack_0
+handle_arg
 
-{
-  0:eval:9
-} put_first_argument_in_s_9
+//stack_struct
+//0 -> main
+//1 -> count
+//2 -> string acumulation
+//3 -> atoi
+//4 -> verif len of param
 
-{
-	pop
-	pop
-} take_off_garbage
+0:dup:3
+3:(
+	][
+	#(
+		dup "0" >= ? () : error
+		dup "9" <= ? () : error
+		rm
+	)
+):3
 
-{
-	9:dup:0
-} get_increment_in_0
+0:eval:1
 
-{
-	9:dup:8
-	8:#(0:dup:1)
-	0:pop
-	1:#:1
-	1:#(1:print:1)
-	"\n"
-	print
-	increment
-} print_n_time
+1:(
+	dup 0 <= ? error
+):1
 
-{
-	0:dup:7
-	7:][:7
-	7:#:7
-	7:print:7
-} check_int
+//1:dup:1 1:(0):1 1:<=:1 1:?:1 error
 
-{
-	take_off_garbage
-	check_int
-	//#
-	//#(print_n_time)
-} main
+#
+#(
+	1:dup:1
+	1:#(
+		0:dup:2
+	)
+	0:rm
+	2:print_stack:2
+	1:(1):1
+	1:+:1
+)
 
-main
