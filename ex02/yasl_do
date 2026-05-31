@@ -1,0 +1,30 @@
+#! ../yasl_linux
+
+{print "\n" print} aff
+
+{
+	!
+} pop
+
+{
+	=
+} dup
+
+{
+	=
+	!
+} dup_pop
+
+pop
+pop
+
+0:eval:1
+2^
+0:eval:1
+
+0:dup_pop:1
+
+1:eval:1
+
+1:#
+#(1:print:1)

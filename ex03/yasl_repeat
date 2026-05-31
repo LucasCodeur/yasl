@@ -1,0 +1,79 @@
+#! ../yasl_linux
+
+{print "\n" print} aff
+
+{
+	!
+} pop
+
+{
+	=
+} dup
+
+{
+	=
+	!
+} dup_pop
+
+{
+	0:eval:1
+	2^
+	0:eval:1
+	0:dup_pop:1
+	1:eval:1
+} eval_expr
+
+{
+	1:9
+	9:+:9
+} increment
+
+{
+	9:#:9
+	9:#(9:aff:9)
+} p_stack_9
+
+{
+	0:#:0
+	0:#(0:aff:0)
+} p_stack_0
+
+{
+  0:eval:9
+} put_first_argument_in_s_9
+
+{
+	pop
+	pop
+} take_off_garbage
+
+{
+	9:dup:0
+} get_increment_in_0
+
+{
+	9:dup:8
+	8:#(0:dup:1)
+	0:pop
+	1:#:1
+	1:#(1:print:1)
+	"\n"
+	print
+	increment
+} print_n_time
+
+{
+	0:dup:7
+	7:][:7
+	7:#:7
+	7:print:7
+} check_int
+
+{
+	take_off_garbage
+	check_int
+	//#
+	//#(print_n_time)
+} main
+
+main
