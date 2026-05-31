@@ -66,18 +66,8 @@ handle_arg
     1:!
 } sqrt
 
-{
-	" "
-	-
-	32
-	+
 
-} char_to_float
-
-
-//stack structur
 //0 -> destructuration of the img and verif correct ratio
-
 1
 @(
 	read
@@ -85,10 +75,6 @@ handle_arg
 )
 rm//remove trailing 0 after end of read
 
-//printn_stack
-//print
-
-//][
 #
 dup
 dup 4 /
@@ -109,7 +95,6 @@ dup:9
 rm//remove square and bite size
 rm
 
-
 //0 -> main
 //1 -> charset
 //2 -> index
@@ -127,17 +112,13 @@ rm
 	(0):2//add index
 	#
 	#(
-		#
-		^
-		4:#:5
+		# ^
 		dup 0:dup == ? (2:dup:4 0:dup:3)
-		4:#:5
-		2:dup 63 == ? (5:(== ? ("invalid character." printn 0 exit)):5)
 		2:(1 +):2
 	)
-	2:rm:2//clean index
-	5:rm:5//clean index
-	0:rm:0//remove used char
+	2:rm:2//clean
+	5:rm:5
+	0:rm:0
 ):1)
 
 //3 char
@@ -150,9 +131,6 @@ rm
 	(18):5
 
 	//stack 4 char on 6
-
-
-	//printn_stack
 	4
 	#(
 		5:dup <<:6
@@ -164,10 +142,7 @@ rm
 
 	//7 is for mask
 	6:(
-		|
-		|
-		|//add the 4 6bit val to one 24bit
-		//printn_stack
+		| | |//add the 4 6bit val to one 24bit
 
 		255:5//5 is the mask
 		(0):7//7 is the how many we push the mask
@@ -183,8 +158,6 @@ rm
 		)
 	):6
 ):4)
-
-
 
 {
 	0:(
