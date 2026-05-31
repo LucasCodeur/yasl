@@ -1,30 +1,43 @@
 #! ../yasl_linux
 
-{print "\n" print} aff
+{
+	print
+	"\n"
+	print
+} printn
+
+{
+	#
+	#printn
+} print_stack
+
+{
+	=
+	!
+} pop_to
 
 {
 	!
-} pop
+} rm
 
 {
 	=
 } dup
 
 {
-	=
-	!
-} dup_pop
+	rm
+	rm
 
-pop
-pop
+	(# 0 ==) ? (0 exit)
+} handle_arg
 
-0:eval:1
-2^
-0:eval:1
+handle_arg
 
-0:dup_pop:1
+eval:1
+pop_to:2
+eval:1
 
-1:eval:1
+2:pop_to:1
+1:eval:0
 
-1:#
-#(1:print:1)
+print_stack
