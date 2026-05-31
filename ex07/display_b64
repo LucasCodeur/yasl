@@ -1,0 +1,249 @@
+#! ../yasl_linux
+
+{
+	print
+	"\n"
+	print
+} printn
+
+{
+	#
+	#printn
+} printn_stack
+
+{
+	#
+	#print
+	"\n"
+	print
+} print_stack
+
+{
+	=
+	!
+} pop_to
+
+{
+	!
+} rm
+
+{
+	=
+} dup
+
+{
+	rm
+	rm
+
+} handle_arg
+
+handle_arg
+
+{1 +}incr
+
+{
+    =:1
+    1
+    =
+    @ (
+        =
+        %*
+        1:=
+        < ? (
+            !
+            incr
+            1
+        ) :
+        (
+            !
+            =
+            %*
+            1:=
+            != ? (! 0) : (! 1)
+            0
+        )
+    )
+    1:!
+} sqrt
+
+{
+	" "
+	-
+	32
+	+
+
+} char_to_float
+
+
+//stack structur
+//0 -> destructuration of the img and verif correct ratio
+
+1
+@(
+	read
+	0 <= ? 0 : (][ rm 1)
+)
+rm//remove trailing 0 after end of read
+
+//printn_stack
+//print
+
+//][
+#
+dup
+dup 4 /
+4 * != ? ("img does not have 4 byte per pixel" printn 0 exit)
+4 /
+dup:9
+dup:9
+"the image got: " print dup print " byte" printn
+
+sqrt//use 1 and clean it and put res to 0
+
+? ("image is a square of: " print dup printn) : ("image not square" printn 0 exit)
+dup:9
+9:(
+	#
+	!^
+):9
+rm//remove square and bite size
+rm
+
+
+//0 -> main
+//1 -> charset
+//2 -> index
+//3 -> res_char
+//4 -> res_index_in_base64
+//5 -> temp verif
+1:(
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+	][
+	!
+):1
+
+#
+#(1:(
+	(0):2//add index
+	#
+	#(
+		#
+		^
+		4:#:5
+		dup 0:dup == ? (2:dup:4 0:dup:3)
+		4:#:5
+		2:dup 63 == ? (5:(== ? ("invalid character." printn 0 exit)):5)
+		2:(1 +):2
+	)
+	2:rm:2//clean index
+	5:rm:5//clean index
+	0:rm:0//remove used char
+):1)
+
+//3 char
+//4 index base 64
+//8 res
+//9 nb byte
+9:#(4:(
+	//5 is the 6 count
+	//6 is the res
+	(18):5
+
+	//stack 4 char on 6
+
+
+	//printn_stack
+	4
+	#(
+		5:dup <<:6
+		5:( 6 - ):5
+	)
+
+	5:( # #rm ):5//clean 5
+
+
+	//7 is for mask
+	6:(
+		|
+		|
+		|//add the 4 6bit val to one 24bit
+		//printn_stack
+
+		255:5//5 is the mask
+		(0):7//7 is the how many we push the mask
+
+
+		3//do weird bitshift and mask to get 3 8 bit
+		#(
+			5:( dup 7:dup <<):5
+			dup 5:pop_to &
+			7:dup >>
+			pop_to:8
+			7:(8 +):7
+		)
+	):6
+):4)
+
+
+
+{
+	0:(
+
+		255.0
+		/
+		5.0
+		*
+		0.5
+		+
+		1.0
+		+
+		1
+		-:1
+	):0
+} to_5
+
+{
+	0:(
+		//b
+		8:pop_to
+		//g
+		8:pop_to
+		//r
+		8:pop_to
+
+		3 ^
+		3 ^
+		2 !^
+
+		to_5
+		36:1
+		1:*:2
+
+		to_5
+		6:1
+		1:*:2
+
+		to_5
+		16:1
+		1:+:2
+	):0
+
+	2:(
+		+
+		+
+		1
+		*
+	):2
+
+} convert_rgb
+
+9:#(convert_rgb)
+
+2:(
+	#
+	#(
+		"\e[48;5;" print 2:print "m  \e[0m" print
+		# 9:dup % 0 == ? ("\n" print)
+	)
+):2
+

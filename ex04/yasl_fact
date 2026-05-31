@@ -1,0 +1,91 @@
+#! ../yasl_linux
+
+{
+	print
+	"\n"
+	print
+} printn
+
+{
+	#
+	#printn
+} printn_stack
+
+{
+	#
+	#print
+	"\n"
+	print
+} print_stack
+
+{
+	=
+	!
+} pop_to
+
+{
+	!
+} rm
+
+{
+	=
+} dup
+
+{
+	"need 1 param, need to be a positive int\n" print 0 exit
+} error
+
+{
+	"got an overflow\n" print 0 exit
+} overflow
+
+{
+	rm
+	rm
+
+	(# 1 !=) ? error
+} handle_arg
+
+handle_arg
+
+//stack_struct
+//0 -> main
+//1 -> count
+//2 -> result
+//3 -> atoi
+
+0:dup:3
+3:(
+	][
+	dup 1 < ? error
+	#(
+		dup "0" >= ? () : error
+		dup "9" <= ? () : error
+		rm
+	)
+):3
+
+0:eval:1
+
+1:(
+	dup 0 == ? (1 printn 0 exit)
+	dup 0 <= ? error
+
+	dup:2
+
+	1
+	-
+	dup
+	@(
+		dup:2
+		2:*:2
+
+		2:(dup 0 < ? overflow):2
+		1
+		-
+		dup
+	)
+):1
+
+2:print_stack:2
+

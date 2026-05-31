@@ -1,0 +1,111 @@
+#! ../yasl_linux
+
+{
+	print
+	"\n"
+	print
+} printn
+
+{
+	#
+	#printn
+} printn_stack
+
+{
+	#
+	#print
+	"\n"
+	print
+} print_stack
+
+{
+	=
+	!
+} pop_to
+
+{
+	!
+} rm
+
+{
+	=
+} dup
+
+{
+	"need 2 param, first char, second string\n" print 0 exit
+} error
+
+{
+	"got an overflow\n" print 0 exit
+} overflow
+
+{
+	# 0 == ? (0 exit)
+} verif_empty
+
+{
+	# 0 == ? ("\n" print 0 exit)
+} verif_empty_n
+
+{
+	rm
+	rm
+
+	(# 2 !=) ? error
+
+	9:(
+		0:dup
+		][
+		1 != ? error
+	):9
+
+} handle_arg
+
+handle_arg
+
+//stack_struct
+//0 -> main
+//1 -> the separator
+//2 -> verif if multiple separator
+//3 -> while falg
+//9 -> param verif
+
+{
+	(1):3
+	3:@(2:(
+		verif_empty
+		dup 1:dup == ? (rm (1):3) : (0):3
+	):2)
+} rm_next_separator
+
+pop_to:1
+][
+rm
+verif_empty
+
+
+(1):3
+3:@(0:(
+	dup 1:dup == ? (rm (1):3) : (0):3
+	# 0 == ? (0):3
+):0)
+
+verif_empty
+#
+#(
+	dup 1:dup == ? (rm "\n")
+	pop_to:2
+)
+1:rm "\n":1
+
+
+2:(
+	rm_next_separator
+	#
+	#(
+		verif_empty_n
+		dup 1:dup == ? (print rm_next_separator) : print
+	)
+	"\n" print
+):2
+
