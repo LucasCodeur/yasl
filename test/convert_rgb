@@ -1,0 +1,122 @@
+#! ../yasl_linux
+
+{print "\n" print} aff
+
+{
+	!
+} pop
+
+{
+	=
+} dup
+
+{
+	=
+	!
+} dup_pop
+
+{
+	0:eval:1
+	2^
+	0:eval:1
+	0:dup_pop:1
+	1:eval:1
+} eval_expr
+
+{
+	1:9
+	9:+:9
+} increment
+
+{
+	9:#:9
+	9:#(9:aff:9)
+} p_stack_9
+
+{
+	0:#:0
+	0:#(0:aff:0)
+} p_stack_0
+
+{
+  0:eval:9
+} put_first_argument_in_s_9
+
+{
+	pop
+	pop
+} take_off_garbage
+
+{
+	9:dup:0
+} get_increment_in_0
+
+{
+	9:dup:8
+	8:#(0:dup:1)
+	0:pop
+	1:#:1
+	1:#(1:print:1)
+	"\n"
+	print
+	increment
+} print_n_time
+
+// (200 / 255) * 5
+//r g b
+//b g r
+// 	int ansi = 16 + 36 * r + 6 * g + b;
+{
+	//PLACEHOLDER
+	9:(
+
+		255.0
+		/ 
+		5.0
+		*
+		1
+		*:8
+	):9
+} to_5
+
+{
+	#
+	#aff
+} print_stack
+
+{
+	9:(
+		//b
+		111	
+		//g
+		120	
+		//r
+		144	
+		
+		to_5
+		36.0:8
+		8:*:7
+
+		to_5
+		6.0:8
+		8:*:7
+
+		to_5
+		16.0:8
+		8:+:7
+	):9
+
+	7:(
+		+
+		+
+		7:print_stack
+	):7
+
+} convert_rgb
+
+{
+	convert_rgb
+	
+} main
+
+main
